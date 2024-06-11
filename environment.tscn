@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://b7tityjeitsqp"]
+
+[ext_resource type="Material" uid="uid://bio4iti782u7v" path="res://water_blue.tres" id="1_lxql3"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uwbip"]
+
+[node name="EnvironmentRoot" type="Node3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(200, 0, 0, 0, 1, 0, 0, 0, 200, 0, 0, 0)
+shape = SubResource("BoxShape3D_uwbip")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CollisionShape3D"]
+material_override = ExtResource("1_lxql3")

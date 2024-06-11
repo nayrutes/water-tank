@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://dhg2c3n0tkd17"]
+
+[ext_resource type="PackedScene" uid="uid://b7tityjeitsqp" path="res://environment.tscn" id="1_khf2b"]
+[ext_resource type="PackedScene" uid="uid://bapu8fte21hhn" path="res://shipTank.tscn" id="2_go0yf"]
+[ext_resource type="PackedScene" uid="uid://dyyoudqpc1ipd" path="res://box.tscn" id="3_kok1a"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="EnvironmentRoot" parent="." instance=ExtResource("1_khf2b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1)
+
+[node name="Ship1" parent="." instance=ExtResource("2_go0yf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.539823, 0)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, -4, 15, 21)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, 0, 0.458696, -2.00502e-08, 0.888593, -0.888593, 3.88416e-08, 0.458696, -3.05424, 32.3284, -1.51035)
+
+[node name="Box" parent="." instance=ExtResource("3_kok1a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.439754, 2.09896, -9.15944)

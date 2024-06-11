@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bs66tvbi20vtw"]
+
+[ext_resource type="Script" path="res://bounceAndSink.gd" id="1_jn6gp"]
+
+[node name="BounceAndSink" type="Node3D"]
+script = ExtResource("1_jn6gp")

@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://dyyoudqpc1ipd"]
+
+[ext_resource type="PackedScene" uid="uid://bmhf04rpk6vjw" path="res://hittable.tscn" id="1_3cwo5"]
+[ext_resource type="PackedScene" uid="uid://bs66tvbi20vtw" path="res://bounce_and_sink.tscn" id="2_rqy1q"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_o0ab2"]
+
+[node name="Box" type="RigidBody3D" groups=["environment"]]
+gravity_scale = 0.0
+linear_damp = 2.0
+angular_damp = 7.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_o0ab2")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+
+[node name="Hittable" parent="." instance=ExtResource("1_3cwo5")]
+
+[node name="BounceAndSink" parent="." instance=ExtResource("2_rqy1q")]
+
+[connection signal="hit" from="Hittable" to="BounceAndSink" method="_on_hittable_hit"]
