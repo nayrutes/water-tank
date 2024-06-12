@@ -1,16 +1,13 @@
 [gd_scene load_steps=4 format=3 uid="uid://dhg2c3n0tkd17"]
 
 [ext_resource type="PackedScene" uid="uid://b7tityjeitsqp" path="res://environment.tscn" id="1_khf2b"]
-[ext_resource type="PackedScene" uid="uid://bapu8fte21hhn" path="res://shipTank.tscn" id="2_go0yf"]
 [ext_resource type="PackedScene" uid="uid://dyyoudqpc1ipd" path="res://box.tscn" id="3_kok1a"]
+[ext_resource type="Script" path="res://player_initializer.gd" id="4_38mws"]
 
 [node name="Node3D" type="Node3D"]
 
 [node name="EnvironmentRoot" parent="." instance=ExtResource("1_khf2b")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1)
-
-[node name="Ship1" parent="." instance=ExtResource("2_go0yf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.539823, 0)
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, -4, 15, 21)
@@ -20,3 +17,16 @@ transform = Transform3D(-4.37114e-08, -1, 0, 0.458696, -2.00502e-08, 0.888593, -
 
 [node name="Box" parent="." instance=ExtResource("3_kok1a")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.439754, 2.09896, -9.15944)
+
+[node name="Node" type="Node" parent="." node_paths=PackedStringArray("spawnpoints")]
+script = ExtResource("4_38mws")
+spawnpoints = [NodePath("Sp0"), NodePath("Sp1"), NodePath("Sp2")]
+
+[node name="Sp0" type="Node3D" parent="Node"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 13.2846)
+
+[node name="Sp1" type="Node3D" parent="Node"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.5331, 0, -2.77216)
+
+[node name="Sp2" type="Node3D" parent="Node"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.956, 0, -16.9682)
