@@ -1,16 +1,24 @@
-[gd_scene load_steps=4 format=3 uid="uid://bapu8fte21hhn"]
+[gd_scene load_steps=5 format=3 uid="uid://bapu8fte21hhn"]
 
 [ext_resource type="Script" path="res://shipTank.gd" id="1_3uktg"]
 [ext_resource type="PackedScene" uid="uid://c0t0d2m484fjk" path="res://BoatTank.blend" id="2_uvhog"]
+[ext_resource type="Script" path="res://hittable.gd" id="3_lfbk1"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5lbw3"]
 size = Vector3(1.79, 1.996, 6.045)
 
 [node name="BoatRB" type="RigidBody3D"]
+axis_lock_linear_y = true
+axis_lock_angular_x = true
+axis_lock_angular_z = true
+mass = 20.0
 gravity_scale = 0.0
+linear_damp = 0.5
 script = ExtResource("1_3uktg")
+playerId = -1
 bullet_spawn_path = NodePath("BoatTank/Boat/Turret/BulletSpawn")
 turret_path = NodePath("BoatTank/Boat/Turret")
+movement_speed = 7
 
 [node name="BoatTank" parent="." instance=ExtResource("2_uvhog")]
 
@@ -19,6 +27,11 @@ turret_path = NodePath("BoatTank/Boat/Turret")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.497803, -0.180008)
 shape = SubResource("BoxShape3D_5lbw3")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+
+[node name="Hittable" type="Node" parent="."]
+script = ExtResource("3_lfbk1")
 
 [connection signal="timeout" from="ShotTimer" to="." method="_on_shot_timer_timeout"]
 

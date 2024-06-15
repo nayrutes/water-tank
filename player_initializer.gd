@@ -1,11 +1,13 @@
 extends Node
 
-@export var spawnpoints: Array[Node3D]
+@onready var spawnpoints: Array[Node3D]
 @onready var tank_scene = preload("res://shipTank.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	PlayerManager.player_joined.connect(_on_player_joined)
+	for child in get_children():
+		spawnpoints.append(child)
 	pass # Replace with function body.
 
 

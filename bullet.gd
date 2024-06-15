@@ -14,18 +14,18 @@ func setup(trans: Transform3D, shooter: RigidBody3D):
 	origin_shooter = shooter
 	print(origin_shooter)
 
-func _on_body_entered(body):
-	if(body == origin_shooter):
+func _on_other_entered(other):
+	if(other == origin_shooter):
 		return
 	
-	trigger_hittable_on_body(body)
-	if body.is_in_group("enemy"):
+	trigger_hittable_on_body(other)
+	if other.is_in_group("enemy"):
 		pass
-	if body.is_in_group("environment"):
+	if other.is_in_group("environment"):
 		pass
-	if body.is_in_group("bullet"):
+	if other.is_in_group("bullet"):
 		pass
-	print("hit: ", body)
+	print("hit: ", other)
 	queue_free()
 	
 func trigger_hittable_on_body(body):

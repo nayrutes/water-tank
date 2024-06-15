@@ -1,4 +1,4 @@
-extends Node3D
+extends Node
 
 signal hit(pos:Vector3, dir:Vector3)
 

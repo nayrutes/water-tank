@@ -1,14 +1,130 @@
-[gd_scene load_steps=3 format=3 uid="uid://b7tityjeitsqp"]
+[gd_scene load_steps=14 format=3 uid="uid://b7tityjeitsqp"]
 
-[ext_resource type="Material" uid="uid://bio4iti782u7v" path="res://water_blue.tres" id="1_lxql3"]
+[ext_resource type="Shader" path="res://water.gdshader" id="2_phff3"]
+[ext_resource type="PackedScene" uid="uid://bapu8fte21hhn" path="res://shipTank.tscn" id="2_wnlou"]
+[ext_resource type="Script" path="res://player_initializer.gd" id="3_wyegv"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_uwbip"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mhkdp"]
+albedo_color = Color(0.237539, 0.237539, 0.237539, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_1dxve"]
+material = SubResource("StandardMaterial3D_mhkdp")
+size = Vector3(2, 4, 60)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_xfuhm"]
+points = PackedVector3Array(1.3913, 2.13043, 30.2174, -1.21739, -2.21739, -30.2174, 1.3913, -2.21739, -30.2174, -1.21739, -2.21739, 30.2174, -1.21739, 2.13043, -30.2174, 1.3913, 2.13043, -30.2174, 1.3913, -2.21739, 30.2174, -1.21739, 2.13043, 30.2174)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_lpo08"]
+points = PackedVector3Array(1.3913, 2.13043, 30.2174, -1.21739, -2.21739, -30.2174, 1.3913, -2.21739, -30.2174, -1.21739, -2.21739, 30.2174, -1.21739, 2.13043, -30.2174, 1.3913, 2.13043, -30.2174, 1.3913, -2.21739, 30.2174, -1.21739, 2.13043, 30.2174)
+
+[sub_resource type="BoxMesh" id="BoxMesh_cqiyq"]
+material = SubResource("StandardMaterial3D_mhkdp")
+size = Vector3(84, 4, 2)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_8oxks"]
+points = PackedVector3Array(-42.2838, -2.28334, -1.28378, 42.2838, 2.25631, 1.55405, 42.2838, 2.25631, -1.28378, -42.2838, 2.25631, 1.55405, 42.2838, -2.28334, 1.55405, 42.2838, -2.28334, -1.28378, -42.2838, 2.25631, -1.28378, -42.2838, -2.28334, 1.55405)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_fgt2m"]
+points = PackedVector3Array(-42.2838, -2.28334, -1.28378, 42.2838, 2.25631, 1.55405, 42.2838, 2.25631, -1.28378, -42.2838, 2.25631, 1.55405, 42.2838, -2.28334, 1.55405, 42.2838, -2.28334, -1.28378, -42.2838, 2.25631, -1.28378, -42.2838, -2.28334, 1.55405)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_a2wog"]
+size = Vector2(100, 100)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ktcbc"]
+render_priority = 0
+shader = ExtResource("2_phff3")
+shader_parameter/WATER_COL = Color(0.04, 0.38, 0.88, 1)
+shader_parameter/WATER2_COL = Color(0.04, 0.35, 0.78, 1)
+shader_parameter/FOAM_COL = Color(0.8125, 0.9609, 0.9648, 1)
+shader_parameter/distortion_speed = 2.0
+shader_parameter/wave_speed = 1.5
+shader_parameter/ratio = 1.0
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_gww6t"]
+points = PackedVector3Array(50.7837, 0.793495, 50.7837, -50.7837, -0.793495, -50.7837, -50.7837, 0.793495, -50.7837, 50.7837, -0.793495, -50.7837, -50.7837, -0.793495, 50.7837, -50.7837, 0.793495, 50.7837, 50.7837, 0.793495, -50.7837, 50.7837, -0.793495, 50.7837)
 
 [node name="EnvironmentRoot" type="Node3D"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(200, 0, 0, 0, 1, 0, 0, 0, 200, 0, 0, 0)
-shape = SubResource("BoxShape3D_uwbip")
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 23.522, 22.021)
+projection = 1
+size = 50.0
 
-[node name="CSGBox3D" type="CSGBox3D" parent="CollisionShape3D"]
-material_override = ExtResource("1_lxql3")
+[node name="BoatRB" parent="." instance=ExtResource("2_wnlou")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.2627, 0, -20.4675)
+playerId = -2
+prespawned = true
+movement_speed = 3
+
+[node name="Obstacles" type="Node3D" parent="."]
+
+[node name="Walls" type="Node3D" parent="Obstacles"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Obstacles/Walls"]
+
+[node name="WallRight" type="MeshInstance3D" parent="Obstacles/Walls/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42, 0, 0)
+mesh = SubResource("BoxMesh_1dxve")
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Obstacles/Walls/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_xfuhm")
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="Obstacles/Walls"]
+
+[node name="WallLeft" type="MeshInstance3D" parent="Obstacles/Walls/StaticBody3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42, 0, 0)
+mesh = SubResource("BoxMesh_1dxve")
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Obstacles/Walls/StaticBody3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_lpo08")
+
+[node name="StaticBody3D3" type="StaticBody3D" parent="Obstacles/Walls"]
+
+[node name="WallTop" type="MeshInstance3D" parent="Obstacles/Walls/StaticBody3D3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -30)
+mesh = SubResource("BoxMesh_cqiyq")
+skeleton = NodePath("../../StaticBody3D2/WallLeft")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Obstacles/Walls/StaticBody3D3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -30)
+shape = SubResource("ConvexPolygonShape3D_8oxks")
+
+[node name="StaticBody3D4" type="StaticBody3D" parent="Obstacles/Walls"]
+
+[node name="WallBottom" type="MeshInstance3D" parent="Obstacles/Walls/StaticBody3D4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 30)
+mesh = SubResource("BoxMesh_cqiyq")
+skeleton = NodePath("../../StaticBody3D2/WallLeft")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Obstacles/Walls/StaticBody3D4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 30)
+shape = SubResource("ConvexPolygonShape3D_fgt2m")
+
+[node name="Water" type="Node3D" parent="."]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Water"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Water/StaticBody3D"]
+mesh = SubResource("PlaneMesh_a2wog")
+skeleton = NodePath("../../..")
+surface_material_override/0 = SubResource("ShaderMaterial_ktcbc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Water/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("ConvexPolygonShape3D_gww6t")
+
+[node name="SpawnPoints" type="Node" parent="."]
+script = ExtResource("3_wyegv")
+
+[node name="Sp0" type="Node3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 13.2846)
+
+[node name="Sp1" type="Node3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.5331, 0, -2.77216)
+
+[node name="Sp2" type="Node3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.956, 0, -16.9682)
