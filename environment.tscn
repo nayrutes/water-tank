@@ -52,7 +52,7 @@ size = 50.0
 
 [node name="BoatRB" parent="." instance=ExtResource("2_wnlou")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.2627, 0, -20.4675)
-playerId = -2
+player_id = -2
 prespawned = true
 movement_speed = 3
 

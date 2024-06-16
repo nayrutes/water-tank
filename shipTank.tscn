@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bapu8fte21hhn"]
+[gd_scene load_steps=7 format=3 uid="uid://bapu8fte21hhn"]
 
 [ext_resource type="Script" path="res://shipTank.gd" id="1_3uktg"]
 [ext_resource type="PackedScene" uid="uid://c0t0d2m484fjk" path="res://BoatTank.blend" id="2_uvhog"]
 [ext_resource type="Script" path="res://hittable.gd" id="3_lfbk1"]
+[ext_resource type="PackedScene" uid="uid://c7xlvyhwokye7" path="res://BoatTankdDestroyed.blend" id="4_0ej51"]
+[ext_resource type="PackedScene" uid="uid://w5ry5xlpb5qa" path="res://particles/explosion.tscn" id="5_fvwfx"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5lbw3"]
 size = Vector3(1.79, 1.996, 6.045)
@@ -14,15 +16,18 @@ axis_lock_angular_z = true
 mass = 20.0
 gravity_scale = 0.0
 linear_damp = 0.5
+angular_damp = 0.5
 script = ExtResource("1_3uktg")
-playerId = -1
 bullet_spawn_path = NodePath("BoatTank/Boat/Turret/BulletSpawn")
 turret_path = NodePath("BoatTank/Boat/Turret")
 movement_speed = 7
 
 [node name="BoatTank" parent="." instance=ExtResource("2_uvhog")]
 
-[node name="ShotTimer" type="Timer" parent="."]
+[node name="BulletSpawn" parent="BoatTank/Boat/Turret" index="0"]
+transform = Transform3D(0, 1, 0, 0, 0, 1, 1, 0, 0, 1.37319, 0.779674, 0)
+
+[node name="ReloadTimer" type="Timer" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.497803, -0.180008)
@@ -33,6 +38,15 @@ shape = SubResource("BoxShape3D_5lbw3")
 [node name="Hittable" type="Node" parent="."]
 script = ExtResource("3_lfbk1")
 
-[connection signal="timeout" from="ShotTimer" to="." method="_on_shot_timer_timeout"]
+[node name="BoatTankdDestroyed" parent="." instance=ExtResource("4_0ej51")]
+visible = false
+
+[node name="Explosion" parent="." instance=ExtResource("5_fvwfx")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
+
+[connection signal="timeout" from="ReloadTimer" to="." method="_on_shot_timer_timeout"]
+[connection signal="hit" from="Hittable" to="." method="_on_hittable_hit"]
 
 [editable path="BoatTank"]
+[editable path="BoatTankdDestroyed"]
+[editable path="Explosion"]

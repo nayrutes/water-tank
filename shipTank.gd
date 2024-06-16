@@ -2,15 +2,22 @@ extends RigidBody3D
 
 var is_shot_cd: bool = false
 
-@export var playerId = 0
+@export var player_id = 0
 @export var prespawned: bool
 
 @export_category("Componenets")
-@onready var shot_timer: Timer = $ShotTimer
+@onready var shot_timer: Timer = $ReloadTimer
 @onready var bullet_scene = preload("res://bullet.tscn")
 @onready var agent = $NavigationAgent3D
+@onready var destroyed_model = $BoatTankdDestroyed
+@onready var normal_model = $BoatTank
+@onready var ship_model = $BoatTank/Boat
+@onready var ship_model_destr = $BoatTankdDestroyed/Boat_001
+@onready var collision_shape = $CollisionShape3D
+@onready var explosion_system = $Explosion
 @export var bullet_spawn_path: NodePath
 @export var turret_path: NodePath
+
 
 var bullet_spawn_pos: Node3D
 var turret_node: Node3D
@@ -19,6 +26,7 @@ var setup_done: bool
 var is_bot: bool
 var turret_angle: float
 var turret_dir: Vector2
+var is_destroyed: bool
 
 @export_category("General stats")
 @export var reload_time = 1.5
@@ -28,18 +36,28 @@ var turret_dir: Vector2
 @export var target_shoot_angle = 5
 @export var dist_to_target_stop = 25
 
+var color_mat
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	print("ready")
 	bullet_spawn_pos = get_node(bullet_spawn_path)
 	turret_node = get_node(turret_path)
 	
 	if prespawned:
-		setup(self, playerId)
+		setup(self, player_id, null)
+	
+	if(color_mat != null):
+		ship_model.set_surface_override_material(0, color_mat)
+		ship_model_destr.set_surface_override_material(0, color_mat)
 	
 	PlayerManager.player_left.connect(_on_player_disconnect)
 
-func setup(sp: Node3D, playerId: int):
-	playerId = playerId
+func setup(sp: Node3D, playerId: int, colorMat: StandardMaterial3D):
+	print("setup")
+	player_id = playerId
+	print(colorMat)
+	color_mat = colorMat
 	var pos = Vector3(sp.position.x, 0.0, sp.position.z)
 	position = pos
 	
@@ -52,19 +70,17 @@ func setup(sp: Node3D, playerId: int):
 		add_to_group("enemy")
 		EntityManager.enemy_tanks.append(self)
 	
+	
 	setup_done = true
 
 var forward: Vector3
 
 func _exit_tree():
-	if(playerId >= -1):
-		EntityManager.player_tanks.erase(self)
-	else:
-		EntityManager.enemy_tanks.erase(self)
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if !setup_done:
+	if !setup_done or is_destroyed:
 		return
 	var input_dict: Dictionary
 	if is_bot:
@@ -77,7 +93,7 @@ func _process(delta):
 		shoot()
 	
 func _integrate_forces(state):
-	if !setup_done:
+	if !setup_done or is_destroyed:
 		return
 	
 	forward = global_transform.basis.z
@@ -122,7 +138,8 @@ func shoot():
 
 
 func _on_player_disconnect(player: int):
-	if player == playerId:
+	if player == player_id:
+		tank_out_of_action()
 		queue_free()
 
 func _on_shot_timer_timeout():
@@ -218,3 +235,21 @@ func calc_angle(vec1: Vector2, vec2: Vector2) -> float:
 	# Calculate the angle in radians
 	var angle_radians = acos(cos_angle)
 	return angle_radians
+
+
+func _on_hittable_hit(pos, dir, other: Variant):
+	if other.is_in_group("bullet"):
+		is_destroyed = true
+		collision_shape.set_deferred("disabled", true)
+		normal_model.visible = false
+		destroyed_model.visible = true
+		explosion_system.global_position = pos
+		for s:GPUParticles3D in explosion_system.get_children():
+			s.emitting = true
+		tank_out_of_action()
+
+func tank_out_of_action():
+	if(player_id >= -1):
+		EntityManager.player_tanks.erase(self)
+	else:
+		EntityManager.enemy_tanks.erase(self)

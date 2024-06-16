@@ -18,7 +18,7 @@ func _physics_process(delta):
 	if(sinking):
 		rb.apply_central_force(Vector3.DOWN * 100.0 * delta)
 
-func _on_hittable_hit(pos, dir):
+func _on_hittable_hit(pos, dir, other):
 	sinking = true
 	var impulse = dir + Vector3.DOWN * 1.0
 	rb.apply_impulse(impulse, pos)

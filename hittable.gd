@@ -1,6 +1,6 @@
 extends Node
 
-signal hit(pos:Vector3, dir:Vector3)
+signal hit(pos:Vector3, dir:Vector3, other: Variant)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -11,6 +11,6 @@ func _ready():
 func _process(delta):
 	pass
 	
-func on_hit(pos:Vector3, dir:Vector3):
-	hit.emit(pos, dir)
+func on_hit(pos:Vector3, dir:Vector3, other: Variant):
+	hit.emit(pos, dir, other)
 	print("got hit: ",self," of ",owner)
