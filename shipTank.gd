@@ -134,7 +134,8 @@ func shoot():
 	
 	var bullet = bullet_scene.instantiate()
 	bullet.setup(bullet_spawn_pos.global_transform.rotated_local(Vector3.RIGHT,deg_to_rad(90)), self)
-	get_tree().root.add_child(bullet)
+	bullet.get_child(0).set_surface_override_material(0, color_mat)
+	get_tree().root.get_node("Base").add_child(bullet)
 
 
 func _on_player_disconnect(player: int):
@@ -147,10 +148,18 @@ func _on_shot_timer_timeout():
 
 func get_player_input() -> Dictionary:
 	var input_dict: Dictionary
-	var fwd = input.get_axis("move_forward","move_backwards")
-	var rot = input.get_axis("turn_right","turn_left")
+	var in_fwd = input.get_axis("move_forward","move_backwards")
+	var in_rot = input.get_axis("turn_right","turn_left")
 	var look = input.get_vector("look_left", "look_right", "look_down", "look_up").normalized()
 	var shot = input.is_action_pressed("shot")
+	
+	var dir2D = Vector2(-in_rot, in_fwd).normalized()
+	var forward2D = Vector2(forward.x, forward.z)
+	var angle = forward2D.angle_to(dir2D)
+	var rot = clampf(angle,-1,1)
+	var dAng = forward2D.dot(dir2D)
+	var fwd = clampf(dAng,-1,1)
+	
 	input_dict = {
 		fwd = fwd,
 		rot = rot,
@@ -174,6 +183,7 @@ func get_bot_input() -> Dictionary:
 	var dir2D = Vector2(dir.x, dir.z)
 	var forward2D = Vector2(forward.x, forward.z)
 	var angle = forward2D.angle_to(dir2D)
+	var rot = clampf(angle,-1,1)
 	var dAng = forward2D.dot(dir2D)
 	var fwd = clampf(dAng,-1,1)
 	#var rng = RandomNumberGenerator.new()
@@ -193,7 +203,7 @@ func get_bot_input() -> Dictionary:
 	var input_dict: Dictionary
 	input_dict = {
 		fwd = fwd,
-		rot = clampf(angle,-1,1),
+		rot = rot,
 		look = target_look_dir,
 		shot = false,
 	}

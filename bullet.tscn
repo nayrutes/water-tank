@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://cwa43wi18hs60"]
+[gd_scene load_steps=16 format=3 uid="uid://cwa43wi18hs60"]
 
 [ext_resource type="Script" path="res://bullet.gd" id="1_grt47"]
+[ext_resource type="Texture2D" uid="uid://cuirpltifhrlf" path="res://particles/Circle03.png" id="2_ejwc3"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ykw4r"]
 
@@ -39,6 +40,52 @@ shadow_mesh = SubResource("ArrayMesh_hcktb")
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_rqbqk"]
 points = PackedVector3Array(-4.89652e-05, -0.25, -1.00005, -4.89652e-05, -4.89354e-05, -1.5, 0.176733, -0.176782, -1.00005, -2.98023e-08, -0.25, 0, -0.176782, -0.176782, 0, -0.176782, -0.176782, -1.00005, -0.25, -4.89354e-05, -1.00005, -0.176782, 0.176733, -1.00005, -4.89652e-05, 0.249951, -1.00005, 0.176733, 0.176733, -1.00005, 0.25, -4.89354e-05, -1.00005, 0.176733, -0.176782, 0, -0.25, 0, 0, -0.176782, 0.176733, 0, -2.98023e-08, 0.249951, 0, 0.176733, 0.176733, 0, 0.25, 0, 0)
 
+[sub_resource type="Curve" id="Curve_hv03x"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.745583, 0.691367), -1.15796, -1.15796, 0, 0, Vector2(0.911661, 0.0366907), -1.73057, -1.73057, 0, 0, Vector2(1, 0), -0.0598818, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_kri4d"]
+curve = SubResource("Curve_hv03x")
+
+[sub_resource type="Curve" id="Curve_mck24"]
+_data = [Vector2(0, 0.504317), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_rlpm4"]
+_data = [Vector2(0, 0.513669), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_4wq8o"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_hs4oa"]
+curve_x = SubResource("Curve_mck24")
+curve_y = SubResource("Curve_rlpm4")
+curve_z = SubResource("Curve_4wq8o")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6dt6e"]
+direction = Vector3(0, 0, 1)
+spread = 0.0
+initial_velocity_min = 0.1
+initial_velocity_max = 0.1
+gravity = Vector3(0, 0, 0)
+scale_min = 1.5
+scale_max = 1.5
+scale_curve = SubResource("CurveXYZTexture_hs4oa")
+alpha_curve = SubResource("CurveTexture_kri4d")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_otsmp"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.118581, 0.118581, 0.118581, 1)
+albedo_texture = ExtResource("2_ejwc3")
+
+[sub_resource type="QuadMesh" id="QuadMesh_57661"]
+material = SubResource("StandardMaterial3D_otsmp")
+
 [node name="Bullet" type="Area3D" groups=["bullet"]]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
 script = ExtResource("1_grt47")
@@ -50,6 +97,14 @@ skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("ConvexPolygonShape3D_rqbqk")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0)
+amount = 10
+lifetime = 0.3
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_6dt6e")
+draw_pass_1 = SubResource("QuadMesh_57661")
 
 [connection signal="area_entered" from="." to="." method="_on_other_entered"]
 [connection signal="body_entered" from="." to="." method="_on_other_entered"]
