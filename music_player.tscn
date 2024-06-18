@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://28he0j7ifxhx"]
+
+[ext_resource type="AudioStream" uid="uid://cuqr5v65jwlkm" path="res://sounds/Cinematic_Epic.mp3" id="1_vl3jy"]
+[ext_resource type="Script" path="res://music_player.gd" id="2_803m3"]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer"]
+stream = ExtResource("1_vl3jy")
+volume_db = -15.0
+script = ExtResource("2_803m3")

@@ -7,6 +7,7 @@ extends Node
 signal player_joined(player: int)
 signal player_left(player: int)
 
+signal menu_pressed
 # map from player integer to dictionary of data
 # the existence of a key in this dictionary means this player is joined.
 # use get_player_data() and set_player_data() to use this dictionary.
@@ -17,6 +18,7 @@ const MAX_PLAYERS = 8
 func _process(delta):
 	handle_join_input()
 	someone_want_to_leave()
+	someone_wants_menu()
 
 func join(device: int):
 	print("join from device: ",device)
@@ -104,3 +106,9 @@ func get_unjoined_devices():
 	
 	# filter out devices that are joined:
 	return devices.filter(func(device): return !is_device_joined(device))
+
+func someone_wants_menu():
+	for player in player_data:
+		var device = get_player_device(player)
+		if MultiplayerInput.is_action_just_pressed(device, "menu"):
+			menu_pressed.emit()

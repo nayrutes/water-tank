@@ -1,10 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://bapu8fte21hhn"]
+[gd_scene load_steps=9 format=3 uid="uid://bapu8fte21hhn"]
 
 [ext_resource type="Script" path="res://shipTank.gd" id="1_3uktg"]
 [ext_resource type="PackedScene" uid="uid://c0t0d2m484fjk" path="res://BoatTank.blend" id="2_uvhog"]
 [ext_resource type="Script" path="res://hittable.gd" id="3_lfbk1"]
 [ext_resource type="PackedScene" uid="uid://c7xlvyhwokye7" path="res://BoatTankdDestroyed.blend" id="4_0ej51"]
 [ext_resource type="PackedScene" uid="uid://w5ry5xlpb5qa" path="res://particles/explosion.tscn" id="5_fvwfx"]
+[ext_resource type="AudioStream" uid="uid://d3floxwmwqbj3" path="res://sounds/423105__ogsoundfx__guns-explosions-album-cannon-impact-9.mp3" id="6_tswpe"]
+[ext_resource type="AudioStream" uid="uid://dyb6kam8eh5t5" path="res://sounds/268557__cydon__explosion_001.mp3" id="7_q8gwq"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5lbw3"]
 size = Vector3(1.79, 1.996, 6.045)
@@ -43,6 +45,12 @@ visible = false
 
 [node name="Explosion" parent="." instance=ExtResource("5_fvwfx")]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
+
+[node name="ShotAudio" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("6_tswpe")
+
+[node name="DestroyAudio" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("7_q8gwq")
 
 [connection signal="timeout" from="ReloadTimer" to="." method="_on_shot_timer_timeout"]
 [connection signal="hit" from="Hittable" to="." method="_on_hittable_hit"]

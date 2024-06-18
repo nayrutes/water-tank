@@ -15,6 +15,8 @@ var is_shot_cd: bool = false
 @onready var ship_model_destr = $BoatTankdDestroyed/Boat_001
 @onready var collision_shape = $CollisionShape3D
 @onready var explosion_system = $Explosion
+@onready var shot_player = $ShotAudio
+@onready var destroy_player = $DestroyAudio
 @export var bullet_spawn_path: NodePath
 @export var turret_path: NodePath
 
@@ -136,6 +138,7 @@ func shoot():
 	bullet.setup(bullet_spawn_pos.global_transform.rotated_local(Vector3.RIGHT,deg_to_rad(90)), self)
 	bullet.get_child(0).set_surface_override_material(0, color_mat)
 	get_tree().root.get_node("Base").add_child(bullet)
+	shot_player.play()
 
 
 func _on_player_disconnect(player: int):
@@ -256,6 +259,7 @@ func _on_hittable_hit(pos, dir, other: Variant):
 		explosion_system.global_position = pos
 		for s:GPUParticles3D in explosion_system.get_children():
 			s.emitting = true
+		destroy_player.play()
 		tank_out_of_action()
 
 func tank_out_of_action():

@@ -25,11 +25,11 @@ func _process(delta):
 	if enemy_tanks.size() == 0:
 		GameLoop.is_level_active = false
 		print("players won")
-		GameLoop.load_next_level()
+		GameLoop.load_next_level(3)
 	if player_tanks.size() == 0:
 		GameLoop.is_level_active = false
 		print("players lost")
-		GameLoop.load_current_level()
+		GameLoop.load_current_level(3)
 	pass
 
 func get_closest_player(o_pos: Vector3) -> Node3D:

@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://b7tityjeitsqp"]
+[gd_scene load_steps=14 format=3 uid="uid://b7tityjeitsqp"]
 
 [ext_resource type="Shader" path="res://water.gdshader" id="2_phff3"]
+[ext_resource type="PackedScene" uid="uid://ccktqt6pgs2iu" path="res://in_game_menu.tscn" id="3_lws2u"]
 [ext_resource type="Script" path="res://finishedLoading.gd" id="4_ht2b2"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_a2wog"]
@@ -47,6 +48,9 @@ points = PackedVector3Array(-42.2838, -2.28334, -1.28378, 42.2838, 2.25631, 1.55
 [node name="Camera3D2" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 39.452, 16.491)
 size = 50.0
+
+[node name="AudioListener3D" type="AudioListener3D" parent="Camera3D2"]
+current = true
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 23.522, 22.021)
@@ -118,3 +122,5 @@ skeleton = NodePath("../../StaticBody3D2/WallLeft")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/StaticBody3D4"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 30)
 shape = SubResource("ConvexPolygonShape3D_fgt2m")
+
+[node name="In-GameMenu" parent="." instance=ExtResource("3_lws2u")]

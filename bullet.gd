@@ -22,7 +22,8 @@ func _on_other_entered(other):
 	  #print("origin: ", origin_shooter, "--other: ", other)
 	if(other == origin_shooter && (shoot_cooldown > 0 || !GameSettings.allow_self_hit)):
 		return
-	if(other != origin_shooter && other.is_in_group("player") && !GameSettings.allow_team_hit):
+	if(other != origin_shooter && origin_shooter.is_in_group("player") && other.is_in_group("player") && !GameSettings.allow_team_hit):
+		print("returning because of team hit")
 		return
 	
 	var destroy = false

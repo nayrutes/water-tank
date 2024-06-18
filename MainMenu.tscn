@@ -1,8 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://bkmrvxji2d0su"]
+[gd_scene load_steps=13 format=3 uid="uid://bkmrvxji2d0su"]
 
 [ext_resource type="Script" path="res://MainMenu.gd" id="1_fhc2r"]
 [ext_resource type="Script" path="res://player_initializer.gd" id="2_jcqgw"]
+[ext_resource type="PackedScene" uid="uid://y2n3t04hbrp3" path="res://credits.tscn" id="2_lgufh"]
 [ext_resource type="Shader" path="res://water.gdshader" id="3_acwfq"]
+[ext_resource type="PackedScene" uid="uid://7klas3s0i4f5" path="res://settings.tscn" id="3_cwwne"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_u1bq4"]
 size = Vector2(100, 100)
@@ -46,23 +48,23 @@ theme_override_constants/margin_right = 120
 theme_override_constants/margin_bottom = 80
 script = ExtResource("1_fhc2r")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MainMenu"]
+[node name="main" type="HBoxContainer" parent="MainMenu"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/main"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MainMenu/HBoxContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="MainMenu/main/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Water Tanks!"
 
-[node name="PanelContainer" type="PanelContainer" parent="MainMenu/HBoxContainer/VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="MainMenu/main/VBoxContainer"]
 modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 
-[node name="ButtonStart" type="Button" parent="MainMenu/HBoxContainer/VBoxContainer"]
+[node name="ButtonStart" type="Button" parent="MainMenu/main/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/outline_size = 0
 theme_override_font_sizes/font_size = 30
@@ -71,18 +73,37 @@ flat = true
 alignment = 0
 icon_alignment = 2
 
-[node name="ButtonCredits" type="Button" parent="MainMenu/HBoxContainer/VBoxContainer"]
+[node name="ButtonSettings" type="Button" parent="MainMenu/main/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/outline_size = 0
 theme_override_font_sizes/font_size = 30
-disabled = true
-text = "Credits - WIP"
+text = "Settings
+"
 flat = true
 alignment = 0
 icon_alignment = 2
 
-[node name="CenterContainer" type="CenterContainer" parent="MainMenu/HBoxContainer"]
+[node name="ButtonCredits" type="Button" parent="MainMenu/main/VBoxContainer"]
 layout_mode = 2
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 30
+text = "Credits"
+flat = true
+alignment = 0
+icon_alignment = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="MainMenu/main"]
+layout_mode = 2
+
+[node name="credits" parent="MainMenu" instance=ExtResource("2_lgufh")]
+visible = false
+layout_mode = 2
+alignment = 0
+
+[node name="settings" parent="MainMenu" instance=ExtResource("3_cwwne")]
+visible = false
+layout_mode = 2
+alignment = 0
 
 [node name="Backdrop" type="Node3D" parent="."]
 
@@ -213,4 +234,11 @@ shape = SubResource("BoxShape3D_p00nv")
 transform = Transform3D(0.655479, 0, 0.755213, 0, 1, 0, -0.755213, 0, 0.655479, 35.0229, 0, -13.3778)
 shape = SubResource("BoxShape3D_dw725")
 
-[connection signal="pressed" from="MainMenu/HBoxContainer/VBoxContainer/ButtonStart" to="MainMenu" method="_start_game"]
+[connection signal="pressed" from="MainMenu/main/VBoxContainer/ButtonStart" to="MainMenu" method="_start_game"]
+[connection signal="pressed" from="MainMenu/main/VBoxContainer/ButtonSettings" to="MainMenu" method="_on_toggle_settings"]
+[connection signal="pressed" from="MainMenu/main/VBoxContainer/ButtonCredits" to="MainMenu" method="_on_toggle_credits"]
+[connection signal="pressed" from="MainMenu/credits/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Back" to="MainMenu" method="_on_toggle_credits"]
+[connection signal="pressed" from="MainMenu/settings/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Back" to="MainMenu" method="_on_toggle_settings"]
+
+[editable path="MainMenu/credits"]
+[editable path="MainMenu/settings"]
