@@ -29,8 +29,8 @@ jobs:
         run: |
           sudo mkdir -v -p ~/.local/share/godot/export_templates/
           sudo ls /
-          sudo ls /root/
-          sudo ls /root/snap/
+          sudo ls /home/
+          sudo ls /home/runner/
           sudo ls /root/.local/share/godot/
           sudo ls /root/.local/share/godot/templates/*/
           sudo ls /root/.local/share/godot/export_templates/
