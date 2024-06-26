@@ -28,11 +28,18 @@ jobs:
       - name: Setup
         run: |
           sudo mkdir -v -p ~/.local/share/godot/export_templates/
-          sudo ls /
+          echo "--home:"
           sudo ls /home/
+          echo "--home/runner:"
           sudo ls /home/runner/
+          echo "--/root/.local/"
+          sudo ls /root/.local/
+          echo "--/root/.local/share/"
+          sudo ls /root/.local/share/
+          echo "--/root/.local/share/godot/"
           sudo ls /root/.local/share/godot/
-          sudo ls /root/.local/share/godot/templates/*/
+          echo "--others"
+          sudo ls /root/.local/share/godot/templates/
           sudo ls /root/.local/share/godot/export_templates/
           sudo mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono
       - name: Windows Build
