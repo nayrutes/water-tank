@@ -11,7 +11,7 @@ on:
 
 env:
   GODOT_VERSION: 4.2.2
-  EXPORT_NAME: water-tanks
+  EXPORT_NAME: 'Water-Tanks'
   PROJECT_PATH: ''
 
 jobs:
