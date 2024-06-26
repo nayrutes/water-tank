@@ -19,7 +19,7 @@ jobs:
     name: Windows Export
     runs-on: ubuntu-20.04
     container:
-      image: barichello/godot-ci:4.2.2
+      image: ${{ vars.DOCKER_IMAGE-env1 }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -27,21 +27,21 @@ jobs:
           lfs: true
       - name: Setup
         run: |
-          sudo mkdir -v -p ~/.local/share/godot/export_templates/
+          mkdir -v -p ~/.local/share/godot/export_templates/
           echo "--home:"
-          sudo ls /home/
+          ls /home/
           echo "--home/runner:"
-          sudo ls /home/runner/
+          ls /home/runner/
           echo "--/root/.local/"
-          sudo ls /root/.local/
+          ls /root/.local/
           echo "--/root/.local/share/"
-          sudo ls /root/.local/share/
+          ls /root/.local/share/
           echo "--/root/.local/share/godot/"
-          sudo ls /root/.local/share/godot/
+          ls /root/.local/share/godot/
           echo "--others"
-          sudo ls /root/.local/share/godot/templates/
-          sudo ls /root/.local/share/godot/export_templates/
-          sudo mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono
+          ls /root/.local/share/godot/templates/
+          ls /root/.local/share/godot/export_templates/
+          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono
       - name: Windows Build
         run: |
           mkdir -v -p build/windows
@@ -57,7 +57,7 @@ jobs:
     name: Linux Export
     runs-on: ubuntu-20.04
     container:
-      image: ${{ vars.DOCKER_IMAGE }}
+      image: barichello/godot-ci:mono-4.2.2
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -82,7 +82,7 @@ jobs:
     name: Web Export
     runs-on: ubuntu-20.04
     container:
-      image: ${{ vars.DOCKER_IMAGE }}
+      image: barichello/godot-ci:mono-4.2.2
     steps:
       - name: Checkout
         uses: actions/checkout@v2
