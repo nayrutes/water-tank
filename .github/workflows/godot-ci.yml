@@ -28,19 +28,6 @@ jobs:
       - name: Setup
         run: |
           mkdir -v -p ~/.local/share/godot/export_templates/
-          echo "--home:"
-          ls /home/
-          echo "--home/runner:"
-          ls /home/runner/
-          echo "--/root/.local/"
-          ls /root/.local/
-          echo "--/root/.local/share/"
-          ls /root/.local/share/
-          echo "--/root/.local/share/godot/"
-          ls /root/.local/share/godot/
-          echo "--others"
-          ls /root/.local/share/godot/templates/
-          ls /root/.local/share/godot/export_templates/
           mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono
       - name: Windows Build
         run: |
@@ -57,7 +44,7 @@ jobs:
     name: Linux Export
     runs-on: ubuntu-20.04
     container:
-      image: barichello/godot-ci:mono-4.2.2
+      image: ${{ vars.DOCKER_IM }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -82,7 +69,7 @@ jobs:
     name: Web Export
     runs-on: ubuntu-20.04
     container:
-      image: barichello/godot-ci:mono-4.2.2
+      image: ${{ vars.DOCKER_IM }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -115,7 +102,7 @@ jobs:
     name: Mac Export
     runs-on: ubuntu-20.04
     container:
-      image: ${{ vars.DOCKER_IMAGE }}
+      image: ${{ vars.DOCKER_IM }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
