@@ -12,14 +12,14 @@ on:
 env:
   GODOT_VERSION: 4.2.2
   EXPORT_NAME: water-tanks
-  PROJECT_PATH: water-tanks
+  PROJECT_PATH: ''
 
 jobs:
   export-windows:
     name: Windows Export
     runs-on: ubuntu-20.04
     container:
-      image: ${{ vars.DOCKER_IMAGE }}
+      image: barichello/godot-ci:4.2.2
     steps:
       - name: Checkout
         uses: actions/checkout@v2
