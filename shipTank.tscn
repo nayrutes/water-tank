@@ -1,9 +1,9 @@
 [gd_scene load_steps=9 format=3 uid="uid://bapu8fte21hhn"]
 
 [ext_resource type="Script" path="res://shipTank.gd" id="1_3uktg"]
-[ext_resource type="PackedScene" uid="uid://c0t0d2m484fjk" path="res://BoatTank.blend" id="2_uvhog"]
+[ext_resource type="PackedScene" uid="uid://bhxb33x2okcje" path="res://BoatTank.glb" id="2_de2lg"]
 [ext_resource type="Script" path="res://hittable.gd" id="3_lfbk1"]
-[ext_resource type="PackedScene" uid="uid://c7xlvyhwokye7" path="res://BoatTankdDestroyed.blend" id="4_0ej51"]
+[ext_resource type="PackedScene" uid="uid://b31t4upvuqcea" path="res://BoatTankdDestroyed.glb" id="4_ono5r"]
 [ext_resource type="PackedScene" uid="uid://w5ry5xlpb5qa" path="res://particles/explosion.tscn" id="5_fvwfx"]
 [ext_resource type="AudioStream" uid="uid://d3floxwmwqbj3" path="res://sounds/423105__ogsoundfx__guns-explosions-album-cannon-impact-9.mp3" id="6_tswpe"]
 [ext_resource type="AudioStream" uid="uid://dyb6kam8eh5t5" path="res://sounds/268557__cydon__explosion_001.mp3" id="7_q8gwq"]
@@ -20,14 +20,9 @@ gravity_scale = 0.0
 linear_damp = 0.5
 angular_damp = 0.5
 script = ExtResource("1_3uktg")
-bullet_spawn_path = NodePath("BoatTank/Boat/Turret/BulletSpawn")
-turret_path = NodePath("BoatTank/Boat/Turret")
 movement_speed = 7
 
-[node name="BoatTank" parent="." instance=ExtResource("2_uvhog")]
-
-[node name="BulletSpawn" parent="BoatTank/Boat/Turret" index="0"]
-transform = Transform3D(0, 1, 0, 0, 0, 1, 1, 0, 0, 1.37319, 0.779674, 0)
+[node name="BoatTank" parent="." instance=ExtResource("2_de2lg")]
 
 [node name="ReloadTimer" type="Timer" parent="."]
 
@@ -40,7 +35,7 @@ shape = SubResource("BoxShape3D_5lbw3")
 [node name="Hittable" type="Node" parent="."]
 script = ExtResource("3_lfbk1")
 
-[node name="BoatTankdDestroyed" parent="." instance=ExtResource("4_0ej51")]
+[node name="BoatTankdDestroyed" parent="." instance=ExtResource("4_ono5r")]
 visible = false
 
 [node name="Explosion" parent="." instance=ExtResource("5_fvwfx")]
@@ -55,6 +50,4 @@ stream = ExtResource("7_q8gwq")
 [connection signal="timeout" from="ReloadTimer" to="." method="_on_shot_timer_timeout"]
 [connection signal="hit" from="Hittable" to="." method="_on_hittable_hit"]
 
-[editable path="BoatTank"]
-[editable path="BoatTankdDestroyed"]
 [editable path="Explosion"]
