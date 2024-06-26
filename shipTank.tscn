@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bapu8fte21hhn"]
+[gd_scene load_steps=12 format=3 uid="uid://bapu8fte21hhn"]
 
 [ext_resource type="Script" path="res://shipTank.gd" id="1_3uktg"]
 [ext_resource type="PackedScene" uid="uid://c0t0d2m484fjk" path="res://BoatTank.blend" id="2_uvhog"]
@@ -7,6 +7,23 @@
 [ext_resource type="PackedScene" uid="uid://w5ry5xlpb5qa" path="res://particles/explosion.tscn" id="5_fvwfx"]
 [ext_resource type="AudioStream" uid="uid://d3floxwmwqbj3" path="res://sounds/423105__ogsoundfx__guns-explosions-album-cannon-impact-9.mp3" id="6_tswpe"]
 [ext_resource type="AudioStream" uid="uid://dyb6kam8eh5t5" path="res://sounds/268557__cydon__explosion_001.mp3" id="7_q8gwq"]
+
+[sub_resource type="Curve" id="Curve_ogugy"]
+_data = [Vector2(0, 0.253325), 0.0, 0.0, 0, 0, Vector2(0.733945, 0.237606), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mp1pf"]
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.580392, 1, 1, 1)
+
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_0gkbl"]
+material = SubResource("StandardMaterial3D_mp1pf")
+shape = 0
+sections = 2
+section_length = 4.0
+section_segments = 5
+curve = SubResource("Curve_ogugy")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5lbw3"]
 size = Vector3(1.79, 1.996, 6.045)
@@ -28,6 +45,11 @@ movement_speed = 7
 
 [node name="BulletSpawn" parent="BoatTank/Boat/Turret" index="0"]
 transform = Transform3D(0, 1, 0, 0, 0, 1, 1, 0, 0, 1.37319, 0.779674, 0)
+
+[node name="AimLine" type="MeshInstance3D" parent="BoatTank/Boat/Turret/BulletSpawn" index="0"]
+transform = Transform3D(-1, 4.37114e-08, 1.91069e-15, -4.37114e-08, -1, -4.37114e-08, 0, -4.37114e-08, 1, -1.66026e-07, 3.79823, 2.38419e-07)
+mesh = SubResource("RibbonTrailMesh_0gkbl")
+skeleton = NodePath("../../../../..")
 
 [node name="ReloadTimer" type="Timer" parent="."]
 

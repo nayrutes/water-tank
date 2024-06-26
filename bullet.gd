@@ -1,7 +1,7 @@
 extends Area3D
 
 @export var speed: float = 800.0
-@export var bounces: int = 2
+@export var bounces: int = 1
 
 var origin_shooter: RigidBody3D
 var shoot_cooldown: float = 0.5

@@ -17,6 +17,7 @@ var is_shot_cd: bool = false
 @onready var explosion_system = $Explosion
 @onready var shot_player = $ShotAudio
 @onready var destroy_player = $DestroyAudio
+@onready var aim_line = $BoatTank/Boat/Turret/BulletSpawn/AimLine
 @export var bullet_spawn_path: NodePath
 @export var turret_path: NodePath
 
@@ -40,6 +41,8 @@ var is_destroyed: bool
 
 var color_mat
 
+var last_look = Vector2.UP
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	print("ready")
@@ -52,6 +55,7 @@ func _ready():
 	if(color_mat != null):
 		ship_model.set_surface_override_material(0, color_mat)
 		ship_model_destr.set_surface_override_material(0, color_mat)
+		aim_line.set_surface_override_material(0, color_mat)
 	
 	PlayerManager.player_left.connect(_on_player_disconnect)
 
@@ -70,6 +74,7 @@ func setup(sp: Node3D, playerId: int, colorMat: StandardMaterial3D):
 	else:
 		is_bot = true
 		add_to_group("enemy")
+		aim_line.visible = false
 		EntityManager.enemy_tanks.append(self)
 	
 	
@@ -109,6 +114,10 @@ func _integrate_forces(state):
 	var fwd = input_dict["fwd"]
 	var rot = input_dict["rot"]
 	var look = input_dict["look"]
+	if look == Vector2.ZERO:
+		look = last_look
+	else:
+		last_look = look
 	
 	#position = position + forward * fwd * movement_speed * delta
 	var dir = (forward * fwd).normalized()
