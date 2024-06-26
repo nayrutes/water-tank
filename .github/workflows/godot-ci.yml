@@ -13,6 +13,9 @@ env:
   GODOT_VERSION: 4.2.2
   EXPORT_NAME: 'Water-Tanks'
   PROJECT_PATH: ''
+  BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+  ITCH_GAME: water-tanks
+  ITCH_USER: nayrutes
 
 jobs:
   export-windows:
@@ -41,10 +44,7 @@ jobs:
       - name: Push to Itch
         uses: manleydev/butler-publish-itchio-action@master
         env:
-          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
           CHANNEL: windows
-          ITCH_GAME: water-tanks
-          ITCH_USER: nayrutes
           PACKAGE: build/windows
 
   export-linux:
@@ -70,6 +70,11 @@ jobs:
         with:
           name: linux
           path: build/linux
+      - name: Push to Itch
+        uses: manleydev/butler-publish-itchio-action@master
+        env:
+          CHANNEL: linux
+          PACKAGE: build/linux
 
   export-web:
     name: Web Export
@@ -94,14 +99,11 @@ jobs:
         with:
           name: web
           path: build/web
-      - name: Install rsync 📚
-        run: |
-          apt-get update && apt-get install -y rsync
-      - name: Deploy to GitHub Pages 🚀
-        uses: JamesIves/github-pages-deploy-action@releases/v4
-        with:
-          branch: gh-pages # The branch the action should deploy to.
-          folder: build/web # The folder the action should deploy.
+      - name: Push to Itch
+        uses: manleydev/butler-publish-itchio-action@master
+        env:
+          CHANNEL: HTML5
+          PACKAGE: build/web
 
   export-mac:
     name: Mac Export
@@ -126,3 +128,8 @@ jobs:
         with:
           name: mac
           path: build/mac
+      - name: Push to Itch
+        uses: manleydev/butler-publish-itchio-action@master
+        env:
+          CHANNEL: mac
+          PACKAGE: build/mac
