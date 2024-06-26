@@ -14,15 +14,12 @@ env:
   EXPORT_NAME: water-tanks
   PROJECT_PATH: water-tanks
 
-x-container-image: &container-image
-  image: barichello/godot-ci:4.2.2
-
 jobs:
   export-windows:
     name: Windows Export
     runs-on: ubuntu-20.04
     container:
-      <<: *container-image
+      image: ${{ env1.DOCKER_IMAGE }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -47,7 +44,7 @@ jobs:
     name: Linux Export
     runs-on: ubuntu-20.04
     container:
-      <<: *container-image
+      image: ${{ env1.DOCKER_IMAGE }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -72,7 +69,7 @@ jobs:
     name: Web Export
     runs-on: ubuntu-20.04
     container:
-      <<: *container-image
+      image: ${{ env1.DOCKER_IMAGE }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -105,7 +102,7 @@ jobs:
     name: Mac Export
     runs-on: ubuntu-20.04
     container:
-      <<: *container-image
+      image: ${{ env1.DOCKER_IMAGE }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
