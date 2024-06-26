@@ -4,7 +4,7 @@ var levelfolderPath = "res://Levels/"
 var main_menu_path = "res://MainMenu.tscn"
 var currentLevelIndex = -1
 var all_level_paths: Array[String]
-var level_count: int
+var level_count: int = -2
 var is_level_active: bool
 var timer: float = -1
 var timer_active = false
@@ -61,11 +61,12 @@ func get_all_levels():
 		dir.list_dir_begin()
 		var file_name = dir.get_next()
 		while (file_name != ""):
-			print("File name: ", file_name)  # Debugging release builds
-			if file_name.ends_with("tscn"):
-				all_level_paths.push_back(levelfolderPath + file_name)
+			file_name = file_name.trim_suffix('.remap')
+			print("File name: ", file_name)
+			all_level_paths.push_back(levelfolderPath + file_name)
 			file_name = dir.get_next()
 		level_count = all_level_paths.size()
+		print("found ", level_count, " levels")
 
 func load_next_level(delay):
 	load_level(currentLevelIndex+1, delay)

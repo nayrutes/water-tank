@@ -18,8 +18,8 @@ var is_shot_cd: bool = false
 @onready var shot_player = $ShotAudio
 @onready var destroy_player = $DestroyAudio
 @onready var aim_line = $BoatTank/Boat/Turret/BulletSpawn/AimLine
-@export var bullet_spawn_path: NodePath
-@export var turret_path: NodePath
+@onready var bullet_spawn_path = $BoatTank/Boat/Turret/BulletSpawn
+@onready var turret_path = $BoatTank/Boat/Turret
 
 
 var bullet_spawn_pos: Node3D
@@ -46,8 +46,8 @@ var last_look = Vector2.UP
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	print("ready")
-	bullet_spawn_pos = get_node(bullet_spawn_path)
-	turret_node = get_node(turret_path)
+	bullet_spawn_pos = bullet_spawn_path
+	turret_node = turret_path
 	
 	if prespawned:
 		setup(self, player_id, null)
