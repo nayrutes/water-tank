@@ -8,7 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://d3floxwmwqbj3" path="res://sounds/423105__ogsoundfx__guns-explosions-album-cannon-impact-9.mp3" id="6_tswpe"]
 [ext_resource type="AudioStream" uid="uid://dyb6kam8eh5t5" path="res://sounds/268557__cydon__explosion_001.mp3" id="7_q8gwq"]
 
-[sub_resource type="Curve" id="Curve_ogugy"]
+[sub_resource type="Curve" id="Curve_q0sf0"]
 _data = [Vector2(0, 0.253325), 0.0, 0.0, 0, 0, Vector2(0.733945, 0.237606), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
@@ -17,13 +17,13 @@ shading_mode = 0
 vertex_color_use_as_albedo = true
 albedo_color = Color(0.580392, 1, 1, 1)
 
-[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_0gkbl"]
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_iwbx7"]
 material = SubResource("StandardMaterial3D_mp1pf")
 shape = 0
 sections = 2
 section_length = 4.0
 section_segments = 5
-curve = SubResource("Curve_ogugy")
+curve = SubResource("Curve_q0sf0")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5lbw3"]
 size = Vector3(1.79, 1.996, 6.045)
@@ -43,7 +43,7 @@ movement_speed = 7
 
 [node name="AimLine" type="MeshInstance3D" parent="BoatTank/Boat/Turret/BulletSpawn" index="0"]
 transform = Transform3D(-1, 4.37114e-08, 1.91069e-15, -4.37114e-08, -1, -4.37114e-08, 0, -4.37114e-08, 1, -1.66026e-07, 3.79823, 2.38419e-07)
-mesh = SubResource("RibbonTrailMesh_0gkbl")
+mesh = SubResource("RibbonTrailMesh_iwbx7")
 skeleton = NodePath("../../../../..")
 
 [node name="ReloadTimer" type="Timer" parent="."]
@@ -72,4 +72,5 @@ stream = ExtResource("7_q8gwq")
 [connection signal="timeout" from="ReloadTimer" to="." method="_on_shot_timer_timeout"]
 [connection signal="hit" from="Hittable" to="." method="_on_hittable_hit"]
 
+[editable path="BoatTank"]
 [editable path="Explosion"]
